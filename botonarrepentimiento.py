@@ -1,5 +1,5 @@
 #consultas de ventas y boton de arrepentimiento
-from .datos import ventas_finalizadas # Importa la lista de ventas
+from .gestiondatos import ventas_finalizadas # Importa la lista de ventas
 from .funcionesutiles import pausa_sistema # Importa funciones de utilidad
 def consultar_ventas_finalizadas(): #Muestra un listado de todas las ventas que han sido registradas.
     

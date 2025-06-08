@@ -1,9 +1,11 @@
 # data.py
-
+#defino las tres listas principales que contendran los diccionarios de datos de cada uno de los modulos
 clientes_registrados = []
 reservas_pendientes = []
 ventas_finalizadas = []
 
+
+#diccionario de destinos 
 destinos_disponibles = {
     'BRC': {'nombre': 'San Carlos de Bariloche', 'precio': 141863},
     'MDZA': {'nombre': 'Mendoza', 'precio': 62046},

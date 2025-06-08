@@ -1,5 +1,5 @@
-#clientes.py
-from .datos import clientes_registrados # Importa la lista de clientes desde data.py
+#gestion_clientes.py
+from .gestiondatos import clientes_registrados # Importa la lista de clientes desde data.py
 from .funcionesutiles import obtener_siguiente_id, pausa_sistema, mostrar_menu_generico # Importa funciones de utilidad
 
 # --- Módulo de Gestión de Clientes ---
@@ -15,33 +15,36 @@ def ver_clientes_registrados(): #Listado de los cliente registrados
     pausa_sistema() #Pausamos para que el usuario pueda leer
 
 def agregar_nuevo_cliente():  #Agrego un cliente a la lista clientes_registrados.
-    global id_cliente          #llamo a mi variable contador de id nombrada al principio del programa pq aqui se va a incrementar
-    print("\n--- Agregar Cliente ---")
+    
+    print("\n--- Agregar Cliente ---") #ingreso variables por teclado 
     razonsocial_cliente = input("Ingrese nombre/razón social del nuevo cliente: ")
     cuit_cliente= input("Ingrese CUIT del nuevo cliente: ")
     correo_cliente = input("Ingrese Correo de Contacto del nuevo cliente: ")
-
+#verifica que no esten en blanco
     if not razonsocial_cliente or not cuit_cliente or not correo_cliente:
         print("Error: DEBE COMPLETAR TODOS LOS CAMPOS.")
-    else:
+    else: #si no estan en blanco, busca con un ciclo for cada posicion en la lista clientesregistrados y cuando encuentra el mismo cuit 
+            #verifica que el cuit ya esta ingresado
         if any(cuit['cuit_cliente'] == cuit_cliente for cuit in clientes_registrados):
             print("Error: Ya existe un cliente con el CUIT ingresado.")
             pausa_sistema() #Pausamos para que el usuario pueda leer
             return
-
-        id_cliente = obtener_siguiente_id(clientes_registrados, 'id_cliente')
+#variable definida globalmente en el main
+        id_cliente = obtener_siguiente_id(clientes_registrados, 'id_cliente') #llamo la funcion para incrementar el id del cliente
+#guardo en el diccionario nuevo_cliente los datos ingresados por teclado anteriormente
         nuevo_cliente = {
             'id_cliente': id_cliente,
             'razonsocial_cliente': razonsocial_cliente,
             'cuit_cliente': cuit_cliente,
             'correo_cliente': correo_cliente,
         }
+#agrego los datos del diccionario a mi lista clientes registrados y los muestro
         clientes_registrados.append(nuevo_cliente)
         print(f"Cliente '{razonsocial_cliente}' (ID: {id_cliente}) agregado exitosamente.")
     pausa_sistema() #Pausamos para que el usuario pueda leer
 def buscar_cliente_por_id_o_cuit(identificador_busqueda): # Encuentra un cliente por su ID o CUIT en la lista de clientes_registrados.
 
-    # Primero, verificamos si el identificador de búsqueda ingresado es completamente numérico.
+    #Primero, verificamos si el identificador de búsqueda ingresado es completamente numérico.
     # Si es numérico, asumimos que el usuario ingresó un ID de cliente.
     if identificador_busqueda.isdigit(): 
         id_int = int(identificador_busqueda) # Convertimos el string numérico a un entero para poder compararlo.
@@ -63,7 +66,7 @@ def buscar_cliente_por_id_o_cuit(identificador_busqueda): # Encuentra un cliente
 
 def modificar_cliente_existente(): #  Permite actualizar los datos de un cliente existente.
     print("\n--- Modificar Cliente ---")
-    if not clientes_registrados:
+    if not clientes_registrados: #verifico que la lista
         print("No hay clientes para modificar. Agregue uno primero.")
         pausa_sistema() #Pausamos para que el usuario pueda leer
         return
